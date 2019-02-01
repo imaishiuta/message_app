@@ -1,0 +1,106 @@
+<html>
+  <head>
+    <title>user</title>
+    <link rel="stylesheet" href="../assets/chat.css">
+    <link rel="stylesheet" href="../assets/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <main>
+      <div class="left-side-content clearfix">
+        <nav class="left-side-bar">
+          <ul class="left-side-lists">
+            <li class="left-side-list">
+              <a class="left-side-link" href="/users">
+                <i class="fas fa-user"></i>
+              </a>
+            </li>
+            <li class="left-side-list">
+              <a class="left-side-link">
+                <i class="fas fa-comment-alt"></i>
+              </a>
+            </li>
+            <li class="left-side-list">
+              <a class="left-side-link">
+                <i class="fas fa-user-plus"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="left-side-edit">
+          <a href="/users/edit">
+            <i class="fas fa-cog"></i>
+          </a>
+        </div>
+      </div>
+      <div class="head-bar"></div>
+      <div class="left-users-content clearfix">
+        <nav class="left-users-bar">
+          <form>
+            <input type="text" name="name" placeholder="名前で検索" class="user-search-box">
+          </form>
+          <ul class="left-users-lists">
+            <li class="left-users-category">
+              <p class="left-users-category-bar">プロフィール</p>
+            </li>
+            <li class="left-users-list">
+              <a class="left-users-link" href="/chatroom">
+                <p class="left-users-name">username</p>
+              </a>
+            </li>
+            <li class="left-users-category">
+              <p class="left-users-category-bar">グループ()</p>
+            </li>
+            <li class="left-users-list">
+              <a class="left-users-link" href="/chatroom/:id">
+                <p class="left-users-name">group</p>
+              </a>
+            </li>
+            <li class="left-users-category">
+              <p class="left-users-category-bar">友達()</p>
+            </li>
+            <li class="left-users-list">
+              <a class="left-users-link" href="/chatroom/:id">
+                <p class="left-users-name">friend</p>
+              </a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="chat-main clearfix">
+        <div class="chat-header">
+          <a class="chat-user-name">
+            <p>username</p>
+          </a>
+        </div>
+        <div class="chat-body">
+          <figure class="user-image-photo clearfix">
+          </figure>
+          <div class="message-content">これはテストの投稿です。相手が投稿したものが表示されます。</div>
+        </div>
+        <div class="chat-body">
+          <div class="user-image">
+            <figure class="user-image-photo clearfix">
+            </figure>
+          </div>
+            <div class="message-content">これはテストの投稿です。相手が投稿したものが表示されます。</div>
+        </div>
+        <div class="chat-body">
+          <div class="my-message-content clearfix">これはテストの投稿です。自分が投稿したものが表示されます。</div>
+        </div>
+        <div class="chat-body">
+          <div class="my-message-content clearfix">これはテストの投稿です。自分が投稿したものが表示されます。</div>
+        </div>
+      </div>
+      <div class="chat-footer">
+        <div class="space"></div>
+        <div class="footer-menu"></div>
+        <form class="message-form">
+          <div class="form-wrapper">
+            <input type="text" placeholder="type text" value="" class="form-textarea">
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
