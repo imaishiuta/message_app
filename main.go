@@ -1,6 +1,7 @@
 package main
 
 import (
+  "./data"
   "./controller"
   "github.com/gin-gonic/gin"
   "github.com/gin-gonic/contrib/sessions"
@@ -8,6 +9,7 @@ import (
 )
 
 func main() {
+  data.InitDB()
   server := gin.Default()
   store := sessions.NewCookieStore([]byte("secret"))
   server.Use(sessions.Sessions("SessionName", store))
@@ -15,6 +17,11 @@ func main() {
   server.LoadHTMLGlob("templates/*")
   server.Static("/assets", "./assets")
   server.GET("/", controller.UserRouter)
+  server.GET("/signup", controller.SignupRouter)
+  server.POST("/user/signup", controller.PostSignupRouter)
+  server.GET("/signin", controller.SigninRouter)
+  server.POST("/user/signin", controller.PostSigninRouter)
   server.GET("/chatroom", controller.ChatRouter)
+  server.POST("/message", controller.PostMessage)
   server.Run()
 }
