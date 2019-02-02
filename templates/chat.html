@@ -73,31 +73,27 @@
             <p>username</p>
           </a>
         </div>
+        {{ $user := .current_user.ID }}
+        {{ range .messages}}
+        {{ if ne .UserId $user}}
         <div class="chat-body">
           <figure class="user-image-photo clearfix">
           </figure>
-          <div class="message-content">これはテストの投稿です。相手が投稿したものが表示されます。</div>
+          <div class="message-content">{{ .Text }}</div>
         </div>
+        {{ else }}
         <div class="chat-body">
-          <div class="user-image">
-            <figure class="user-image-photo clearfix">
-            </figure>
-          </div>
-            <div class="message-content">これはテストの投稿です。相手が投稿したものが表示されます。</div>
+          <div class="my-message-content clearfix">{{ .Text }}</div>
         </div>
-        <div class="chat-body">
-          <div class="my-message-content clearfix">これはテストの投稿です。自分が投稿したものが表示されます。</div>
-        </div>
-        <div class="chat-body">
-          <div class="my-message-content clearfix">これはテストの投稿です。自分が投稿したものが表示されます。</div>
-        </div>
+        {{ end }}
+        {{ end }}
       </div>
       <div class="chat-footer">
         <div class="space"></div>
         <div class="footer-menu"></div>
-        <form class="message-form">
+        <form action="/message" method="post" class="message-form" enctype="multipart/form-data">
           <div class="form-wrapper">
-            <input type="text" placeholder="type text" value="" class="form-textarea">
+            <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
           </div>
         </form>
       </div>
