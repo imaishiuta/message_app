@@ -1,7 +1,6 @@
 package controller
 
 import(
-  "fmt"
   "../session"
   "../data"
   "github.com/gin-gonic/gin"
@@ -17,7 +16,6 @@ func UserRouter(c *gin.Context) {
 
 func ChatRouter(c *gin.Context) {
   messages, current_user := data.Find_Another_User_Messages(c)
-  fmt.Println(current_user.ID)
   c.HTML(200, "chat.html", gin.H{
     "messages": messages,
     "current_user": current_user,
