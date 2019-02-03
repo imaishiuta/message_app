@@ -20,7 +20,7 @@
             </li>
             {{ range .user}}
             <li class="left-users-list">
-              <a class="add-users-link" href="#">
+              <a class="add-users-link">
                 <p class="add-users-name" data-user-id="{{.ID}}">{{ .Name }}</p>
               </a>
             </li>
@@ -35,6 +35,7 @@
               <ul class="selected-user-lists">
               </ul>
             </div>
+            <input type="submit">
           </form>
       </div>
     </main>
@@ -43,7 +44,7 @@
         function Add_Group(user_id, user_name) {
           var selected_list = $(".selected-user-lists")
           var group_html = ` <li class="selected-user-list">
-                     <input name='user_ids' type='hidden' value='${ user_id }'>
+                     <input name='user_ids[]' type='hidden' value='${ user_id }'>
                      <p class='chat-group-user__name'>${ user_name }</p>
                      <a class='user-search-remove btn--remove'>削除</a>
                      </li>`
@@ -56,7 +57,6 @@
           Add_Group(data_user_id, data_user_name)
           $(parent_element).remove()
         })
-
         $(document).on("click", ".user-search-remove", function() {
           var user_name = $(this).parent();
           $(user_name).remove();
