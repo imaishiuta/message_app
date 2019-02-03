@@ -54,3 +54,10 @@ func PostMessage(c *gin.Context) {
   data.Create_Message(c, text)
   c.Redirect(301, "/chatroom")
 }
+
+func GourpRouter(c *gin.Context) {
+  user := data.Get_All_User()
+  c.HTML(200, "group.html", gin.H {
+    "user": user,
+    })
+}
