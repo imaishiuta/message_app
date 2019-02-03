@@ -94,3 +94,14 @@ func Find_Another_User_Messages(c *gin.Context) ([]Message, User ) {
   db.Where("id = ?", user_id).Find(&current_user)
   return messages, current_user
 }
+
+func Get_All_User() []User{
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user []User
+  db.Find(&user)
+  return user
+}
