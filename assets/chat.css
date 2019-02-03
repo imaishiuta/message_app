@@ -50,6 +50,7 @@ ul {
 }
 
 .left-users-content {
+  overflow: scroll;
   float: left;
   width: 300px;
   background-color: #f5f5f5f5;
@@ -110,6 +111,7 @@ a:visit{
 }
 
 .chat-main {
+  overflow: scroll;
   background-color: #fcfdff;
   width: 920px;
   height: 80%;
