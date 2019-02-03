@@ -32,7 +32,9 @@ func PostSignupRouter(c *gin.Context) {
   password := c.PostForm("password")
   confirm_password := c.PostForm("confirm_password")
   data.Create_User(name, email, password, confirm_password)
-  c.HTML(200, "signin.html", nil)
+  user := data.Find_User(email, password)
+  session.Login(c, user)
+  c.Redirect(301, "/chatroom")
 }
 
 func SigninRouter(c *gin.Context) {
@@ -44,11 +46,11 @@ func PostSigninRouter(c *gin.Context) {
   password := c.PostForm("password")
   user := data.Find_User(email, password)
   session.Login(c, user)
-  c.HTML(200, "chat.html", nil)
+  c.Redirect(301, "/chatroom")
 }
 
 func PostMessage(c *gin.Context) {
   text := c.PostForm("text")
   data.Create_Message(c, text)
-  c.HTML(200, "chat.html", nil)
+  c.Redirect(301, "/chatroom")
 }
