@@ -5,6 +5,7 @@ import (
   "github.com/gin-gonic/gin"
   "github.com/gin-gonic/contrib/sessions"
   "github.com/jinzhu/gorm"
+  "strconv"
 )
 
 type User struct {
@@ -23,6 +24,10 @@ type Message struct {
   Image string `json:"name"`
   UserId uint
   User User
+}
+
+type Members struct {
+
 }
 
 type Group struct {
@@ -104,4 +109,29 @@ func Get_All_User() []User{
   var user []User
   db.Find(&user)
   return user
+}
+
+func Create_Group(name string, user_ids []string) {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user User
+  group := Group {
+    Name: name,
+  }
+  db.Create(&group)
+  for i := range user_ids {
+  user_id := user_ids[i]
+  int_user_id, err := strconv.ParseUint(user_id, 10, 0)
+  if err != nil {
+    fmt.Println(err)
+  }
+  fmt.Println(int_user_id)
+  db.Find(&user)
+  //db.Where("ID = ?", int_user_id).First(&user)
+  db.Preload("Groups").First(&user)
+  db.Model(&user).Association("Groups").Append(&user, &group)
+  }
 }
