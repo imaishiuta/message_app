@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <title>group</title>
+    <link rel="stylesheet" href="../assets/group.css">
+    <link rel="stylesheet" href="../assets/chat.css">
+    <link rel="stylesheet" href="../assets/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <main>
+      <div class="left-users-content clearfix">
+        <nav class="left-users-bar">
+          <form>
+            <input type="text" name="name" placeholder="名前で検索" class="user-search-box">
+          </form>
+          <ul class="left-users-lists">
+            <li class="left-users-category">
+              <p class="left-users-category-bar">友達</p>
+            </li>
+            {{ range .user}}
+            <li class="left-users-list">
+              <a class="add-users-link" href="#">
+                <p class="add-users-name" data-user-id="{{.ID}}">{{ .Name }}</p>
+              </a>
+            </li>
+            {{ end }}
+          </ul>
+        </nav>
+      </div>
+      <div class="group-content clearfix">
+          <form action="/group/create" method="post" class="group-form">
+            <input type="text" name="name" placeholder="グループ名を入力" class="group-name-box">
+            <div class="selected-user-area">
+              <ul class="selected-user-lists">
+              </ul>
+            </div>
+          </form>
+      </div>
+    </main>
+    <script>
+      $(function() {
+        function Add_Group(user_id, user_name) {
+          var selected_list = $(".selected-user-lists")
+          var group_html = ` <li class="selected-user-list">
+                     <input name='user_ids' type='hidden' value='${ user_id }'>
+                     <p class='chat-group-user__name'>${ user_name }</p>
+                     <a class='user-search-remove btn--remove'>削除</a>
+                     </li>`
+          selected_list.append(group_html);
+        }
+        $(".add-users-name").on("click", function() {
+          var data_user_id = $(this).data("user-id")
+          var data_user_name = $(this).text()
+          var parent_element = $(this).parents(".left-users-list")
+          Add_Group(data_user_id, data_user_name)
+          $(parent_element).remove()
+        })
+
+        $(document).on("click", ".user-search-remove", function() {
+          var user_name = $(this).parent();
+          $(user_name).remove();
+        })
+      })
+    </script>
+  </body>
+</html>
