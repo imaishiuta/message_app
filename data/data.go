@@ -5,6 +5,7 @@ import (
   "github.com/gin-gonic/gin"
   "github.com/gin-gonic/contrib/sessions"
   "github.com/jinzhu/gorm"
+  "strconv"
 )
 
 type User struct {
@@ -23,6 +24,10 @@ type Message struct {
   Image string `json:"name"`
   UserId uint
   User User
+}
+
+type Members struct {
+
 }
 
 type Group struct {
@@ -93,4 +98,39 @@ func Find_Another_User_Messages(c *gin.Context) ([]Message, User ) {
   db.Preload("User").Find(&messages)
   db.Where("id = ?", user_id).Find(&current_user)
   return messages, current_user
+}
+
+func Get_All_User() []User{
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user []User
+  db.Find(&user)
+  return user
+}
+
+func Create_Group(name string, user_ids []string) {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  //var users []User
+  group := Group {
+    Name: name,
+  }
+  //db.Find(&user)
+  db.Create(&group)
+  for i := range user_ids {
+    var user User
+    user_id := user_ids[i]
+    int_user_id, err := strconv.ParseUint(user_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+    db.Preload("Groups").First(&user, int_user_id)
+    db.Model(&user).Association("Groups").Append(&user, &group)
+  }
 }

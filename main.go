@@ -23,5 +23,7 @@ func main() {
   server.POST("/user/signin", controller.PostSigninRouter)
   server.GET("/chatroom", controller.ChatRouter)
   server.POST("/message", controller.PostMessage)
+  server.GET("/group/edit", controller.GourpRouter)
+  server.POST("/group/create", controller.CreateGroupRouter)
   server.Run()
 }
