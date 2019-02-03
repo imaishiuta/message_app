@@ -117,7 +117,6 @@ func Create_Group(name string, user_ids []string) {
     fmt.Println(err)
   }
   defer db.Close()
-  var users []User
   //var users []User
   group := Group {
     Name: name,
@@ -125,16 +124,13 @@ func Create_Group(name string, user_ids []string) {
   //db.Find(&user)
   db.Create(&group)
   for i := range user_ids {
+    var user User
     user_id := user_ids[i]
     int_user_id, err := strconv.ParseUint(user_id, 10, 0)
     if err != nil {
       fmt.Println(err)
     }
-    db.Preload("Groups").First(&users, int_user_id)
-    for s := range users {
-      user := users[s]
-      db.Model(&user).Association("Groups").Append(&user, &group)
-      //fmt.Println(user)
-    }
+    db.Preload("Groups").First(&user, int_user_id)
+    db.Model(&user).Association("Groups").Append(&user, &group)
   }
 }
