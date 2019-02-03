@@ -4,6 +4,7 @@ import(
   "../session"
   "../data"
   "github.com/gin-gonic/gin"
+  //"fmt"
 )
 
 func IndexRouter(c *gin.Context) {
@@ -60,4 +61,11 @@ func GourpRouter(c *gin.Context) {
   c.HTML(200, "group.html", gin.H {
     "user": user,
     })
+}
+
+func CreateGroupRouter(c *gin.Context) {
+  user_id := c.PostFormArray("user_ids[]")
+  name := c.PostForm("name")
+  data.Create_Group(name, user_id)
+  c.Redirect(301, "/chatroom")
 }
