@@ -23,17 +23,14 @@ type Message struct {
   Text string `json:"name"`
   Image string `json:"name"`
   UserId uint
-  User User
-}
-
-type Members struct {
-
+  User []User
 }
 
 type Group struct {
   gorm.Model
   Name string
   Image string
+  Users []User `gorm:"many2many:members;"`
 }
 
 func InitDB() {
@@ -117,11 +114,9 @@ func Create_Group(name string, user_ids []string) {
     fmt.Println(err)
   }
   defer db.Close()
-  //var users []User
   group := Group {
     Name: name,
   }
-  //db.Find(&user)
   db.Create(&group)
   for i := range user_ids {
     var user User
@@ -133,4 +128,19 @@ func Create_Group(name string, user_ids []string) {
     db.Preload("Groups").First(&user, int_user_id)
     db.Model(&user).Association("Groups").Append(&user, &group)
   }
+}
+
+func Find_Group(c *gin.Context) []Group {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var group []Group
+  var user User
+  session := sessions.Default(c)
+  user_id := session.Get("userID")
+  db.First(&user, user_id)
+  db.Model(&user).Association("Groups").Find(&group)
+  return group
 }
