@@ -74,18 +74,18 @@
           </a>
         </div>
         {{ $user := .current_user.ID }}
-        {{ range .messages}}
-        {{ if ne .UserId $user}}
-        <div class="chat-body">
-          <figure class="user-image-photo clearfix">
-          </figure>
-          <div class="message-content">{{ .Text }}</div>
-        </div>
-        {{ else }}
-        <div class="chat-body">
-          <div class="my-message-content clearfix">{{ .Text }}</div>
-        </div>
-        {{ end }}
+        {{ range .Messages}}
+          {{ if ne .UserId $user }}
+              <div class="chat-body clearfix">
+                <figure class="user-image-photo clearfix">
+                </figure>
+                <div class="message-content">{{ .Text }}</div>
+              </div>
+          {{ else }}
+              <div class="chat-body clearfix">
+                <div class="my-message-content clearfix">{{ .Text }}</div>
+              </div>
+          {{ end }}
         {{ end }}
       </div>
       <div class="chat-footer">

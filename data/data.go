@@ -14,6 +14,7 @@ type User struct {
   Email string
   Password string
   ConfirmPassword string
+  FriendId int
   Messages []Message
   Groups []Group `gorm:"many2many:members;"`
 }
@@ -23,13 +24,16 @@ type Message struct {
   Text string `json:"name"`
   Image string `json:"name"`
   UserId uint
-  User []User
+  GroupId uint
+  Group Group
+  User User
 }
 
 type Group struct {
   gorm.Model
   Name string
   Image string
+  Messages []Message
   Users []User `gorm:"many2many:members;"`
 }
 
@@ -74,27 +78,58 @@ func Create_Message(c *gin.Context, text string) {
     fmt.Println(err)
   }
   defer db.Close()
+  group_id := c.Param("id")
+  int_group_id, err := strconv.ParseUint(group_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+  group_uint := uint(int_group_id)
   session := sessions.Default(c)
   user_id := session.Get("userID")
-  message := Message{Text: text, UserId: user_id.(uint),}
+  message := Message{
+    Text: text,
+    UserId: user_id.(uint),
+    GroupId: group_uint,
+  }
   db.Create(&message)
 }
 
-func Find_Another_User_Messages(c *gin.Context) ([]Message, User ) {
+func Get_Group_Data(c *gin.Context) ([]User, []Message) {
   db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
   if err != nil {
     fmt.Println(err)
   }
   defer db.Close()
+  var users []User
   var messages []Message
-  var user User
+  var group Group
+  group_id := c.Param("id")
+  int_group_id, err := strconv.ParseUint(group_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+  db.Find(&group, int_group_id)
+  db.Model(&group).Association("Users").Find(&users)
+  db.LogMode(true)
+  db.Preload("User").Order("created_at desc").Where("group_id = ?", &group.ID).Find(&messages)
+  fmt.Println(messages)
+  return users, messages
+}
+
+func Get_Current_User(c *gin.Context) User {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
   var current_user User
+  var messages []Message
   session := sessions.Default(c)
   user_id := session.Get("userID")
-  db.Model(&user).Related(&messages)
+  db.Model(&current_user).Related(&messages)
   db.Preload("User").Find(&messages)
   db.Where("id = ?", user_id).Find(&current_user)
-  return messages, current_user
+  return current_user
 }
 
 func Get_All_User() []User{
