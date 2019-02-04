@@ -4,7 +4,7 @@ import(
   "../session"
   "../data"
   "github.com/gin-gonic/gin"
-  //"fmt"
+  "fmt"
 )
 
 func IndexRouter(c *gin.Context) {
@@ -16,9 +16,11 @@ func UserRouter(c *gin.Context) {
 }
 
 func ChatRouter(c *gin.Context) {
-  messages, current_user := data.Find_Another_User_Messages(c)
+  users := data.Get_Group_Data(c)
+  current_user := data.Get_Current_User(c)
+  fmt.Println(users)
   c.HTML(200, "chat.html", gin.H{
-    "messages": messages,
+    "Users": users,
     "current_user": current_user,
     })
 }
@@ -70,7 +72,7 @@ func CreateGroupRouter(c *gin.Context) {
   c.Redirect(301, "/chatroom")
 }
 
-func ChatsRouter(c *gin.Context) {
+func ChatListRouter(c *gin.Context) {
   group := data.Find_Group(c)
   c.HTML(200, "user.html", gin.H{
     "Group": group,
