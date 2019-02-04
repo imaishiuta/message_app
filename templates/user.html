@@ -51,11 +51,13 @@
             <li class="left-users-category">
               <p class="left-users-category-bar">グループ()</p>
             </li>
+            {{ range .Group }}
             <li class="left-users-list">
-              <a class="left-users-link" href="/chatroom/:id">
-                <p class="left-users-name">group</p>
+              <a class="left-users-link" href="/chatroom/{{.ID}}">
+                <p class="left-users-name">{{ .Name }}</p>
               </a>
             </li>
+            {{ end }}
             <li class="left-users-category">
               <p class="left-users-category-bar">友達()</p>
             </li>
