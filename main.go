@@ -26,5 +26,7 @@ func main() {
   server.POST("/message", controller.PostMessage)
   server.GET("/group/edit", controller.GourpRouter)
   server.POST("/group/create", controller.CreateGroupRouter)
+  server.GET("/:id/edit", controller.EditUserRouter)
+  server.GET("/add/users", controller.AddUserRouter)
   server.Run()
 }
