@@ -14,6 +14,7 @@ type User struct {
   Email string
   Password string
   ConfirmPassword string
+  FriendId int
   Messages []Message
   Groups []Group `gorm:"many2many:members;"`
 }
@@ -109,7 +110,9 @@ func Get_Group_Data(c *gin.Context) ([]User, []Message) {
     }
   db.Find(&group, int_group_id)
   db.Model(&group).Association("Users").Find(&users)
-  db.Preload("User").Where("group_id = ?", &group.ID).Order("created_at desc").Find(&messages)
+  db.LogMode(true)
+  db.Preload("User").Order("created_at desc").Where("group_id = ?", &group.ID).Find(&messages)
+  fmt.Println(messages)
   return users, messages
 }
 
