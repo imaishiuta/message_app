@@ -23,6 +23,7 @@ type Message struct {
   Text string `json:"name"`
   Image string `json:"name"`
   UserId uint
+  GroupId uint
   Group Group
   User User
 }
@@ -76,20 +77,30 @@ func Create_Message(c *gin.Context, text string) {
     fmt.Println(err)
   }
   defer db.Close()
+  group_id := c.Param("id")
+  int_group_id, err := strconv.ParseUint(group_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+  group_uint := uint(int_group_id)
   session := sessions.Default(c)
   user_id := session.Get("userID")
-  message := Message{Text: text, UserId: user_id.(uint),}
+  message := Message{
+    Text: text,
+    UserId: user_id.(uint),
+    GroupId: group_uint,
+  }
   db.Create(&message)
 }
 
-func Get_Group_Data(c *gin.Context) []User {
+func Get_Group_Data(c *gin.Context) ([]User, []Message) {
   db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
   if err != nil {
     fmt.Println(err)
   }
   defer db.Close()
   var users []User
-  //var messages []Message
+  var messages []Message
   var group Group
   group_id := c.Param("id")
   int_group_id, err := strconv.ParseUint(group_id, 10, 0)
@@ -97,9 +108,9 @@ func Get_Group_Data(c *gin.Context) []User {
       fmt.Println(err)
     }
   db.Find(&group, int_group_id)
-  //db.Preload("Users").Model(&group).Association("Groups").Find(&messages)
-  db.Preload("Messages").Model(&group).Association("Users").Find(&users)
-  return users
+  db.Model(&group).Association("Users").Find(&users)
+  db.Preload("User").Where("group_id = ?", &group.ID).Order("created_at desc").Find(&messages)
+  return users, messages
 }
 
 func Get_Current_User(c *gin.Context) User {
