@@ -69,3 +69,10 @@ func CreateGroupRouter(c *gin.Context) {
   data.Create_Group(name, user_id)
   c.Redirect(301, "/chatroom")
 }
+
+func ChatsRouter(c *gin.Context) {
+  group := data.Find_Group(c)
+  c.HTML(200, "user.html", gin.H{
+    "Group": group,
+    })
+}
