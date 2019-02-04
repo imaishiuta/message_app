@@ -23,13 +23,15 @@ type Message struct {
   Text string `json:"name"`
   Image string `json:"name"`
   UserId uint
-  User []User
+  Group Group
+  User User
 }
 
 type Group struct {
   gorm.Model
   Name string
   Image string
+  Messages []Message
   Users []User `gorm:"many2many:members;"`
 }
 
@@ -80,21 +82,40 @@ func Create_Message(c *gin.Context, text string) {
   db.Create(&message)
 }
 
-func Find_Another_User_Messages(c *gin.Context) ([]Message, User ) {
+func Get_Group_Data(c *gin.Context) []User {
   db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
   if err != nil {
     fmt.Println(err)
   }
   defer db.Close()
-  var messages []Message
-  var user User
+  var users []User
+  //var messages []Message
+  var group Group
+  group_id := c.Param("id")
+  int_group_id, err := strconv.ParseUint(group_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+  db.Find(&group, int_group_id)
+  //db.Preload("Users").Model(&group).Association("Groups").Find(&messages)
+  db.Preload("Messages").Model(&group).Association("Users").Find(&users)
+  return users
+}
+
+func Get_Current_User(c *gin.Context) User {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
   var current_user User
+  var messages []Message
   session := sessions.Default(c)
   user_id := session.Get("userID")
-  db.Model(&user).Related(&messages)
+  db.Model(&current_user).Related(&messages)
   db.Preload("User").Find(&messages)
   db.Where("id = ?", user_id).Find(&current_user)
-  return messages, current_user
+  return current_user
 }
 
 func Get_All_User() []User{
