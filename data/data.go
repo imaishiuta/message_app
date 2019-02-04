@@ -17,6 +17,7 @@ type User struct {
   FriendId int
   Messages []Message
   Groups []Group `gorm:"many2many:members;"`
+  Friends []*User `gorm:"many2many:friendships;association_jointable_foreignkey:friend_id"`
 }
 
 type Message struct {
