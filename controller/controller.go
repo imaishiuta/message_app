@@ -4,7 +4,7 @@ import(
   "../session"
   "../data"
   "github.com/gin-gonic/gin"
-  _"fmt"
+  "fmt"
 )
 
 func IndexRouter(c *gin.Context) {
@@ -37,7 +37,7 @@ func PostSignupRouter(c *gin.Context) {
   data.Create_User(name, email, password, confirm_password)
   user := data.Find_User(email, password)
   session.Login(c, user)
-  c.Redirect(301, "/chatroom")
+  c.Redirect(301, "/chatrooms")
 }
 
 func SigninRouter(c *gin.Context) {
@@ -49,7 +49,7 @@ func PostSigninRouter(c *gin.Context) {
   password := c.PostForm("password")
   user := data.Find_User(email, password)
   session.Login(c, user)
-  c.Redirect(301, "/chatroom")
+  c.Redirect(301, "/chatrooms")
 }
 
 func PostMessage(c *gin.Context) {
@@ -74,7 +74,32 @@ func CreateGroupRouter(c *gin.Context) {
 
 func ChatListRouter(c *gin.Context) {
   group := data.Find_Group(c)
+  current_user := data.Get_Current_User(c)
   c.HTML(200, "user.html", gin.H{
     "Group": group,
+    "Current_user": current_user,
     })
+}
+
+func EditUserRouter(c *gin.Context) {
+  current_user := data.Get_Current_User(c)
+  c.HTML(200, "edit_user.html", gin.H{
+    "Current_user": current_user,
+    })
+}
+
+func UpdateUserRouter(c *gin.Context) {
+  new_name := c.PostForm("name")
+  new_status_message := c.PostForm("status_message")
+  friend_id := c.PostForm("friend_id")
+
+  email := c.PostForm("email")
+  fmt.Println("loaded")
+  user := data.Current_User(c)
+  data.Update_User(user, new_name, new_status_message, friend_id, email)
+  c.Redirect(301, "/chatrooms")
+}
+
+func AddUserRouter(c *gin.Context) {
+
 }
