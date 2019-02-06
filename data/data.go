@@ -14,9 +14,11 @@ type User struct {
   Email string
   Password string
   ConfirmPassword string
-  FriendId int
+  FriendCode string
+  StatusMessage string
   Messages []Message
   Groups []Group `gorm:"many2many:members;"`
+  Friends []*User `gorm:"many2many:friendships;association_jointable_foreignkey:friend_id"`
 }
 
 type Message struct {
@@ -178,4 +180,41 @@ func Find_Group(c *gin.Context) []Group {
   db.First(&user, user_id)
   db.Model(&user).Association("Groups").Find(&group)
   return group
+}
+
+func Current_User(c *gin.Context) User {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user User
+  session := sessions.Default(c)
+  user_id := session.Get("userID")
+  db.First(&user, user_id)
+  return user
+}
+
+func Update_User(user User, new_name string, new_status_message string, friend_id string, email string ) {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  user.Name = new_name
+  user.StatusMessage = new_status_message
+  user.FriendCode = friend_id
+  user.Email = email
+  db.Save(&user)
+}
+
+func Search_User(keyword string) User {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user User
+  db.Where("friend_code = ?", keyword).Find(&user)
+  return user
 }

@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <title>search user</title>
+    <link rel="stylesheet" href="../assets/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <div class="contents-wrapper">
+      <div class="form-wrapper">
+      <form class="search-form" id="user-search-form" action="/users/search" method="POST" enctype="multipart/form-data" >
+        <input name="keyword" type="text" class="user-search-area" id="user-search-area">
+        <input type="submit" class="user-search-button" id="user-search-button">
+      </form>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+      </script>
+      </div>
+      <div class="user-search-result">
+      </div>
+    </div>
+    <script>
+      $(function(){
+        var search_result = $(".user-search-result")
+
+        function showUser(user) {
+          console.log(user)
+          var html = `<div class="test">${user.Name}</div>`
+          search_result.append(html);
+        }
+
+        $("#user-search-form").submit(function(e){
+          var formData = new FormData( this );
+          var text = $(".user-search-area").val()
+          $.ajax({
+            type: 'POST',
+            url: '/users/search',
+            data: formData,
+            dataType: 'json',
+            cache : false,
+            processData: false
+          })
+          .done(function(data){
+            console.log(data)
+            $(".user-search-result").empty();
+            if(data.length !== 0) {
+              showUser(data);
+            }
+          })
+          .fail(function() {
+            error('ユーザー検索に失敗しました')
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

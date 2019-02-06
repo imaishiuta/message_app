@@ -21,7 +21,7 @@
               </a>
             </li>
             <li class="left-side-list">
-              <a class="left-side-link">
+              <a class="left-side-link" href="/add/users">
                 <i class="fas fa-user-plus"></i>
               </a>
             </li>
@@ -30,6 +30,11 @@
         <div class="left-side-edit">
           <a href="/users/edit">
             <i class="fas fa-cog"></i>
+          </a>
+        </div>
+        <div class="left-side-user-edit">
+          <a href="/user/{{.Current_user.ID}}/edit">
+            <i class="fas fa-user-edit"></i>
           </a>
         </div>
       </div>
