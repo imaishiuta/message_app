@@ -101,5 +101,15 @@ func UpdateUserRouter(c *gin.Context) {
 }
 
 func AddUserRouter(c *gin.Context) {
+  c.HTML(200, "add_user.html", nil)
+}
 
+func SearchUserRouter(c *gin.Context) {
+  keyword := c.PostForm("keyword")
+  fmt.Println(keyword)
+  user := data.Search_User(keyword)
+  fmt.Println(user)
+  c.JSON(200, gin.H{
+    "User": user,
+    })
 }
