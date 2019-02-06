@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Sign in or Sign up</title>
+    <link rel="stylesheet" href="../assets/signin.css">
+    <link rel="stylesheet" href="../assets/normalize.css">
+  </head>
+  <body>
+    <div class="head-wrapper">
+      <div class="head-form clearfix">
+        <form action="/user/signin" method="post" enctype="multipart/form-data">
+          <input name="email" type="text" class="textarea" placeholder="email">
+          <input name="password" type="password" class="textarea" placeholder="password">
+          <button class="default-button" type="submit" value="signup">singin</button>
+        </form>
+      </div>
+    </div>
+    <main>
+      <div class="signup-form">
+        <h2>signup</h2>
+          <form action="/user/signup" method="post" enctype="multipart/form-data">
+            <input name="name" type="text" class="form-default" placeholder="name">
+            <input name="email" type="text" class="form-default" placeholder="email">
+            <input name="password" type="password" class="form-default" placeholder="password">
+            <input name="confirm_password" type="password" class="form-default" placeholder="confirm_password">
+            <button class="default-button button-right" type="submit" value="signup">singup</button>
+          </form>
+      </div>
+    </main>
+  </body>
+</html>
