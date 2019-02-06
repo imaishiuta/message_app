@@ -208,3 +208,14 @@ func Update_User(user User, new_name string, new_status_message string, friend_i
   user.Email = email
   db.Save(&user)
 }
+
+func Search_User(keyword string) User {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user User
+  db.Where("friend_code = ?", keyword).Find(&user)
+  return user
+}
