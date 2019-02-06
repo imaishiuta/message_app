@@ -3,19 +3,30 @@ package controller
 import(
   "../session"
   "../data"
+  "github.com/gin-gonic/contrib/sessions"
   "github.com/gin-gonic/gin"
   "fmt"
 )
+
+func UserSigninRedirect(c *gin.Context) {
+  session := sessions.Default(c)
+  user_id := session.Get("userID")
+  if user_id == nil {
+    c.Redirect(301, "/signin")
+  }
+}
 
 func IndexRouter(c *gin.Context) {
   c.HTML(200, "index.html", nil)
 }
 
 func UserRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   c.HTML(200, "user.html", nil)
 }
 
 func ChatRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   users, messages := data.Get_Group_Data(c)
   current_user := data.Get_Current_User(c)
   c.HTML(200, "chat.html", gin.H{
@@ -59,6 +70,7 @@ func PostMessage(c *gin.Context) {
 }
 
 func GourpRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   user := data.Get_All_User()
   c.HTML(200, "group.html", gin.H {
     "user": user,
@@ -73,6 +85,7 @@ func CreateGroupRouter(c *gin.Context) {
 }
 
 func ChatListRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   group := data.Find_Group(c)
   current_user := data.Get_Current_User(c)
   c.HTML(200, "user.html", gin.H{
@@ -82,6 +95,7 @@ func ChatListRouter(c *gin.Context) {
 }
 
 func EditUserRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   current_user := data.Get_Current_User(c)
   c.HTML(200, "edit_user.html", gin.H{
     "Current_user": current_user,
@@ -101,6 +115,7 @@ func UpdateUserRouter(c *gin.Context) {
 }
 
 func AddUserRouter(c *gin.Context) {
+  UserSigninRedirect(c)
   c.HTML(200, "add_user.html", nil)
 }
 
