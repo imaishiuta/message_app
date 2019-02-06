@@ -29,5 +29,6 @@ func main() {
   server.GET("/user/:id/edit", controller.EditUserRouter)
   server.POST("/user/update/:id", controller.UpdateUserRouter)
   server.GET("/add/users", controller.AddUserRouter)
+  server.POST("/users/search", controller.SearchUserRouter)
   server.Run()
 }
