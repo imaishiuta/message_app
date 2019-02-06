@@ -192,7 +192,6 @@ func Current_User(c *gin.Context) User {
   session := sessions.Default(c)
   user_id := session.Get("userID")
   db.First(&user, user_id)
-  fmt.Println(user)
   return user
 }
 
