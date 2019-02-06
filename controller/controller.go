@@ -12,7 +12,7 @@ func UserSigninRedirect(c *gin.Context) {
   session := sessions.Default(c)
   user_id := session.Get("userID")
   if user_id == nil {
-    c.Redirect(301, "/signin")
+    c.Redirect(301, "/signinsignup")
   }
 }
 
@@ -36,10 +36,6 @@ func ChatRouter(c *gin.Context) {
     })
 }
 
-func SignupRouter(c *gin.Context) {
-  c.HTML(200, "signup.html", nil)
-}
-
 func PostSignupRouter(c *gin.Context) {
   name := c.PostForm("name")
   email := c.PostForm("email")
@@ -49,10 +45,6 @@ func PostSignupRouter(c *gin.Context) {
   user := data.Find_User(email, password)
   session.Login(c, user)
   c.Redirect(301, "/chatrooms")
-}
-
-func SigninRouter(c *gin.Context) {
-  c.HTML(200, "signin.html", nil)
 }
 
 func PostSigninRouter(c *gin.Context) {
@@ -127,4 +119,8 @@ func SearchUserRouter(c *gin.Context) {
   c.JSON(200, gin.H{
     "User": user,
     })
+}
+
+func UserSigninSignoutRouter(c *gin.Context) {
+  c.HTML(200, "signup_and_signin.html", nil)
 }
