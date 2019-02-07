@@ -25,11 +25,43 @@ func UserRouter(c *gin.Context) {
   c.HTML(200, "user.html", nil)
 }
 
-func ChatRouter(c *gin.Context) {
+func ChatListRouter(c *gin.Context) {
   UserSigninRedirect(c)
+  user := data.Get_All_User()
+  group := data.Find_Group(c)
+  current_user := data.Get_Current_User(c)
+  c.HTML(200, "user.html", gin.H{
+    "User": user,
+    "Group": group,
+    "Current_user": current_user,
+    })
+}
+
+func GroupChatRouter(c *gin.Context) {
+  UserSigninRedirect(c)
+  user := data.Get_All_User()
   users, messages := data.Get_Group_Data(c)
   current_user := data.Get_Current_User(c)
-  c.HTML(200, "chat.html", gin.H{
+  group := data.Find_Group(c)
+  c.HTML(200, "group_chat.html", gin.H{
+    "User": user,
+    "Group": group,
+    "Users": users,
+    "Messages": messages,
+    "current_user": current_user,
+    })
+}
+
+func UserChatRouter(c *gin.Context) {
+  UserSigninRedirect(c)
+  user := data.Get_All_User()
+  user_id := c.Param("id")
+  current_user := data.Get_Current_User(c)
+  users, messages := data.Get_Chat_Data(c, current_user, user_id)
+  group := data.Find_Group(c)
+  c.HTML(200, "user_chat.html", gin.H{
+    "User": user,
+    "Group": group,
     "Users": users,
     "Messages": messages,
     "current_user": current_user,
@@ -74,16 +106,6 @@ func CreateGroupRouter(c *gin.Context) {
   name := c.PostForm("name")
   data.Create_Group(name, user_id)
   c.Redirect(301, "/chatroom")
-}
-
-func ChatListRouter(c *gin.Context) {
-  UserSigninRedirect(c)
-  group := data.Find_Group(c)
-  current_user := data.Get_Current_User(c)
-  c.HTML(200, "user.html", gin.H{
-    "Group": group,
-    "Current_user": current_user,
-    })
 }
 
 func EditUserRouter(c *gin.Context) {
