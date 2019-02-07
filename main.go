@@ -17,7 +17,7 @@ func main() {
   server.LoadHTMLGlob("templates/*")
   server.Static("/assets", "./assets")
 
-  server.GET("/", controller.UserRouter)
+  server.GET("/", controller.ChatListRouter)
   server.POST("/user/signup", controller.PostSignupRouter)
   server.POST("/user/signin", controller.PostSigninRouter)
   server.GET("/chatrooms", controller.ChatListRouter)
@@ -31,5 +31,6 @@ func main() {
   server.GET("/add/users", controller.AddUserRouter)
   server.POST("/users/search", controller.SearchUserRouter)
   server.GET("/signinsignup", controller.UserSigninSignoutRouter)
+  server.POST("/users/add", controller.AddFriendRouter)
   server.Run()
 }
