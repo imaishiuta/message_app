@@ -237,3 +237,19 @@ func Search_User(keyword string) User {
   db.Where("friend_code = ?", keyword).Find(&user)
   return user
 }
+
+func Add_User_Friend(c *gin.Context, user_id string) {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  var user User
+  current_user := Current_User(c)
+  int_user_id, err := strconv.ParseUint(user_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+  db.First(&user, int_user_id)
+  db.Model(&current_user).Association("Friends").Append(&user)
+}
