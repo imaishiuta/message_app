@@ -1,8 +1,8 @@
 <html>
   <head>
     <title>user</title>
-    <link rel="stylesheet" href="../assets/chat.css">
-    <link rel="stylesheet" href="../assets/normalize.css">
+    <link rel="stylesheet" href="../../assets/user_chat.css">
+    <link rel="stylesheet" href="../../assets/normalize.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   </head>
   <body>
@@ -17,24 +17,24 @@
             </li>
             <li class="left-side-list">
               <a class="left-side-link">
-                <i class="fas fa-comment-alt"></i>
+                <i class="fas fa-comment-alt fa-top"></i>
               </a>
             </li>
             <li class="left-side-list">
               <a class="left-side-link">
-                <i class="fas fa-user-plus"></i>
+                <i class="fas fa-user-plus fa-top"></i>
               </a>
             </li>
           </ul>
         </nav>
-        <div class="left-side-edit">
-          <a href="/group/edit">
-            <i class="fas fa-cog"></i>
+        <div class="left-side-user-edit">
+          <a href="/user/edit/{{.Current_user.ID}}">
+            <i class="fas fa-user-edit"></i>
           </a>
         </div>
-        <div class="left-side-user-edit">
-          <a href="/user/edit">
-            <i class="fas fa-user-edit"></i>
+        <div class="left-side-edit">
+          <a href="/users/edit">
+            <i class="fas fa-cog"></i>
           </a>
         </div>
       </div>
@@ -54,21 +54,25 @@
               </a>
             </li>
             <li class="left-users-category">
-              <p class="left-users-category-bar">グループ()</p>
+              <p class="left-users-category-bar">グループ({{ len .Group }})</p>
             </li>
+            {{ range .Group }}
             <li class="left-users-list">
-              <a class="left-users-link" href="/chatroom/:id">
-                <p class="left-users-name">group</p>
+              <a class="left-users-link" href="group/chatroom/{{.ID}}">
+                <p class="left-users-name">{{ .Name }}</p>
               </a>
             </li>
+            {{ end }}
             <li class="left-users-category">
-              <p class="left-users-category-bar">友達()</p>
+              <p class="left-users-category-bar">友達({{ len .User }})</p>
             </li>
+            {{ range .User }}
             <li class="left-users-list">
-              <a class="left-users-link" href="/chatroom/:id">
-                <p class="left-users-name">friend</p>
+              <a class="left-users-link" href="user/chatroom/{{.ID}}">
+                <p class="left-users-name">{{.Name}}</p>
               </a>
             </li>
+            {{ end }}
           </ul>
         </nav>
       </div>
