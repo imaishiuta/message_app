@@ -1,0 +1,112 @@
+<html>
+  <head>
+    <title>user</title>
+    <link rel="stylesheet" href="../../assets/user_chat.css">
+    <link rel="stylesheet" href="../../assets/normalize.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+  </head>
+  <body>
+    <main>
+      <div class="left-side-content clearfix">
+        <nav class="left-side-bar">
+          <ul class="left-side-lists">
+            <li class="left-side-list">
+              <a class="left-side-link" href="/users">
+                <i class="fas fa-user fa-top"></i>
+              </a>
+            </li>
+            <li class="left-side-list">
+              <a class="left-side-link">
+                <i class="fas fa-comment-alt fa-top"></i>
+              </a>
+            </li>
+            <li class="left-side-list">
+              <a class="left-side-link">
+                <i class="fas fa-user-plus fa-top"></i>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <div class="left-side-user-edit">
+          <a href="/user/edit/{{.Current_user.ID}}">
+            <i class="fas fa-user-edit"></i>
+          </a>
+        </div>
+        <div class="left-side-edit">
+          <a href="/users/edit">
+            <i class="fas fa-cog"></i>
+          </a>
+        </div>
+      </div>
+      </div>
+      <div class="head-bar"></div>
+      <div class="left-users-content clearfix">
+        <nav class="left-users-bar">
+          <form>
+            <input type="text" name="name" placeholder="名前で検索" class="user-search-box">
+          </form>
+          <ul class="left-users-lists">
+            <li class="left-users-category">
+              <p class="left-users-category-bar">プロフィール</p>
+            </li>
+            <li class="left-users-list">
+              <a class="left-users-link" href="/chatroom">
+                <p class="left-users-name">username</p>
+              </a>
+            </li>
+            <li class="left-users-category">
+              <p class="left-users-category-bar">グループ({{ len .Group }})</p>
+            </li>
+            {{ range .Group }}
+            <li class="left-users-list">
+              <a class="left-users-link" href="/group/chatroom/{{.ID}}">
+                <p class="left-users-name">{{ .Name }}</p>
+              </a>
+            </li>
+            {{ end }}
+            <li class="left-users-category">
+              <p class="left-users-category-bar">友達({{ len .User }})</p>
+            </li>
+            {{ range .User }}
+            <li class="left-users-list">
+              <a class="left-users-link" href="/user/chatroom/{{.ID}}">
+                <p class="left-users-name">{{.Name}}</p>
+              </a>
+            </li>
+            {{ end }}
+          </ul>
+        </nav>
+      </div>
+      <div class="chat-main clearfix">
+        <div class="chat-header">
+          <a class="chat-user-name">
+            <p>username</p>
+          </a>
+        </div>
+        {{ $user := .current_user.ID }}
+        {{ range .Messages}}
+          {{ if ne .UserId $user }}
+              <div class="chat-body clearfix">
+                <figure class="user-image-photo clearfix">
+                </figure>
+                <div class="message-content">{{ .Text }}</div>
+              </div>
+          {{ else }}
+              <div class="chat-body clearfix">
+                <div class="my-message-content clearfix">{{ .Text }}</div>
+              </div>
+          {{ end }}
+        {{ end }}
+      </div>
+      <div class="chat-footer">
+        <div class="space"></div>
+        <div class="footer-menu"></div>
+        <form action="/message" method="post" class="message-form" enctype="multipart/form-data">
+          <div class="form-wrapper">
+            <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+</html>
