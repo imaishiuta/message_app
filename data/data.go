@@ -131,7 +131,6 @@ func Get_Chat_Data(c *gin.Context, current_user User, user_id string) ([]User, [
   var messages []Message
   uint_user_id := uint(int_user_id)
   my_user_id := current_user.ID
-  db.LogMode(true)
   db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
   db.Preload("User").Where("user_id in (?)", []uint{my_user_id, uint_user_id}).Find(&messages)
   return users, messages
@@ -252,4 +251,31 @@ func Add_User_Friend(c *gin.Context, user_id string) {
     }
   db.First(&user, int_user_id)
   db.Model(&current_user).Association("Friends").Append(&user)
+}
+
+func Create_User_Chat(c *gin.Context, user_id string) {
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+
+  int_user_id, err := strconv.ParseUint(user_id, 10, 0)
+    if err != nil {
+      fmt.Println(err)
+    }
+
+  var users []User
+  current_user := Current_User(c)
+  group := Group{
+    Name: "Personal",
+  }
+
+  db.Create(&group)
+  uint_user_id := uint(int_user_id)
+  my_user_id := current_user.ID
+  db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
+  fmt.Println(users)
+  fmt.Println(group)
+  db.Model(&group).Association("Users").Append(&users, &group)
 }
