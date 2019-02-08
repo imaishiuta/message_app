@@ -82,14 +82,16 @@
             <p>username</p>
           </a>
         </div>
+        <div class="chat-body">
         {{ range .Messages}}
-          <div class="chat-body clearfix">
+          <div class="chat-list clearfix">
             <figure class="user-image-photo clearfix">
             </figure>
             <div class="message-content">{{ .Text }}</div>
           </div>
         {{ end }}
       </div>
+    </div>
       <div class="chat-footer">
         <div class="space"></div>
         <div class="footer-menu"></div>
@@ -105,9 +107,11 @@
     <script>
       $(function() {
         function buildHTML(data) {
-          var html = `<figure class="user-image-photo clearfix">
-                        </figure>
-            <div class="message-content">${data.Text}}</div>`
+          var html = `<div class="chat-list clearfix">
+                        <figure class="user-image-photo clearfix">
+                          </figure>
+                      <div class="message-content">${data.Text}</div>
+                      </div>`
         return html;
         }
         $("#postbox").submit(function(e){
