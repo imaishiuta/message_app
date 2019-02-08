@@ -113,9 +113,14 @@ a:visit{
   float: right;
 }
 
-.chat-body {
+.chat-list {
   margin-bottom: 10px;
   margin-left: 20px;
+}
+
+.chat-body {
+  width: 920px;
+  height: 400px;
 }
 
 .chat-user-name p{
