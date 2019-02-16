@@ -98,6 +98,7 @@
         <form action="/message" method="post" class="message-form" enctype="multipart/form-data" id="postbox">
           <div class="form-wrapper">
             <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
+            <input name="group_id" type="hidden" value="{{.group_id}}">
           </div>
         </form>
       </div>
