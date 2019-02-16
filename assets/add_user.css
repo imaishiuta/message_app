@@ -78,3 +78,15 @@ body{
   margin: 0 auto;
   text-align: center;
 }
+
+.add-nouser-name{
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  color: black;
+  font-size: 20px;
+  padding: 40px 16px 40px 20px;
+  display: inline-block;
+  height: 20px;
+  width: 580px;
+  text-align: center;
+}

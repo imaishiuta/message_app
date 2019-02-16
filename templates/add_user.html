@@ -33,6 +33,11 @@
         return html
         }
 
+        function emptyUser() {
+        var html = `<div class="add-nouser-name">該当するユーザーはいません</div>`
+        return html
+        }
+
         $("#user-search-form").submit(function(e){
           e.preventDefault();
           var formData = new FormData( this );
@@ -46,10 +51,13 @@
             contentType: false
           })
           .done(function(data){
-            console.log(data);
             $(".user-search-result").empty();
             textarea.val("");
+            if(data.User.ID != 0) {
             html = showUser(data);
+            } else {
+            html = emptyUser();
+            }
             $(search_result).append(html);
           })
           .fail(function() {

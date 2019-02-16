@@ -96,7 +96,7 @@ func Create_Message(c *gin.Context, text string) {
   db.Create(&message)
 }
 
-func Get_Group_Data(c *gin.Context) ([]User, []Message, uint) {
+func Get_Group_Data(c *gin.Context) (Group, []User, []Message, uint) {
   db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
   if err != nil {
     fmt.Println(err)
@@ -111,10 +111,10 @@ func Get_Group_Data(c *gin.Context) ([]User, []Message, uint) {
       fmt.Println(err)
     }
   group_uint := uint(int_group_id)
-  db.Find(&group, int_group_id)
+  db.Preload("Users").Where("id = ?", int_group_id).Find(&group)
   db.Model(&group).Association("Users").Find(&users)
   db.Preload("User").Order("created_at desc").Where("group_id = ?", &group.ID).Find(&messages)
-  return users, messages, group_uint
+  return group, users, messages, group_uint
 }
 
 func Get_Chat_Data(c *gin.Context, current_user User, user_id string) ([]User, []Message) {
@@ -129,6 +129,7 @@ func Get_Chat_Data(c *gin.Context, current_user User, user_id string) ([]User, [
     }
   var users []User
   var messages []Message
+
   uint_user_id := uint(int_user_id)
   my_user_id := current_user.ID
   db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
