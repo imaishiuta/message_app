@@ -21,20 +21,20 @@
               </a>
             </li>
             <li class="left-side-list">
-              <a class="left-side-link">
+              <a class="left-side-link" href="/add/users">
                 <i class="fas fa-user-plus fa-top"></i>
+              </a>
+            </li>
+            <li class="left-side-list">
+              <a class="left-side-link" href="/group/edit">
+                <i class="fas fa-users"></i>
               </a>
             </li>
           </ul>
         </nav>
-        <div class="left-side-user-edit">
-          <a href="/add/users">
-            <i class="fas fa-user-edit"></i>
-          </a>
-        </div>
         <div class="left-side-edit">
           <a href="/user/edit/{{.Current_user.ID}}">
-            <i class="fas fa-cog"></i>
+            <i class="fas fa-cog fa-top"></i>
           </a>
         </div>
       </div>
@@ -58,7 +58,7 @@
             </li>
             {{ range .Group }}
             <li class="left-users-list">
-              <a class="left-users-link" href="group/chatroom/{{.ID}}">
+              <a class="left-users-link" href="/group/chatroom/{{.ID}}">
                 <p class="left-users-name">{{ .Name }}</p>
               </a>
             </li>
@@ -68,7 +68,7 @@
             </li>
             {{ range .User }}
             <li class="left-users-list">
-              <a class="left-users-link" href="user/chatroom/{{.ID}}">
+              <a class="left-users-link" href="/user/chatroom/{{.ID}}">
                 <p class="left-users-name">{{.Name}}</p>
               </a>
             </li>
@@ -82,30 +82,62 @@
             <p>username</p>
           </a>
         </div>
-        {{ $user := .current_user.ID }}
+        <div class="chat-body">
         {{ range .Messages}}
-          {{ if ne .UserId $user }}
-              <div class="chat-body clearfix">
-                <figure class="user-image-photo clearfix">
-                </figure>
-                <div class="message-content">{{ .Text }}</div>
-              </div>
-          {{ else }}
-              <div class="chat-body clearfix">
-                <div class="my-message-content clearfix">{{ .Text }}</div>
-              </div>
-          {{ end }}
+          <div class="chat-list clearfix">
+            <figure class="user-image-photo clearfix">
+            </figure>
+            <div class="message-content">{{ .Text }}</div>
+          </div>
         {{ end }}
       </div>
+    </div>
       <div class="chat-footer">
         <div class="space"></div>
         <div class="footer-menu"></div>
-        <form action="/message" method="post" class="message-form" enctype="multipart/form-data">
+        <form action="/message" method="post" class="message-form" enctype="multipart/form-data" id="postbox">
           <div class="form-wrapper">
             <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
           </div>
         </form>
       </div>
     </main>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+    </script>
+    <script>
+      $(function() {
+        function buildHTML(data) {
+          var html = `<div class="chat-list clearfix">
+                        <figure class="user-image-photo clearfix">
+                          </figure>
+                      <div class="message-content">${data.Text}</div>
+                      </div>`
+        return html;
+        }
+        $("#postbox").submit(function(e){
+          var formData = new FormData( this );
+          var msgBox = $(".form-textarea");
+          e.preventDefault();
+          $.ajax({
+            type: "POST",
+            url: "/message",
+            data: formData,
+            dataType: 'json',
+            processData: false,
+            contentType: false
+          })
+          .done(function(data){
+            console.log(data)
+            var posts = $(".chat-body");
+            var html = buildHTML(data);
+            posts.append(html);
+            msgBox.val("");
+          })
+          .fail(function(data){
+            alert('error')
+          });
+        });
+      });
+    </script>
   </body>
 </html>

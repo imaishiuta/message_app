@@ -90,7 +90,9 @@ func PostSigninRouter(c *gin.Context) {
 func PostMessage(c *gin.Context) {
   text := c.PostForm("text")
   data.Create_Message(c, text)
-  c.Redirect(301, "/chatroom")
+  c.JSON(200, gin.H{
+    "Text": text,
+    })
 }
 
 func GourpRouter(c *gin.Context) {
@@ -135,9 +137,7 @@ func AddUserRouter(c *gin.Context) {
 
 func SearchUserRouter(c *gin.Context) {
   keyword := c.PostForm("keyword")
-  fmt.Println(keyword)
   user := data.Search_User(keyword)
-  fmt.Println(user)
   c.JSON(200, gin.H{
     "User": user,
     })
@@ -145,4 +145,11 @@ func SearchUserRouter(c *gin.Context) {
 
 func UserSigninSignoutRouter(c *gin.Context) {
   c.HTML(200, "signup_and_signin.html", nil)
+}
+
+func AddFriendRouter(c *gin.Context) {
+  user_id := c.PostForm("user_id")
+  data.Add_User_Friend(c, user_id)
+  data.Create_User_Chat(c, user_id)
+  c.Redirect(301, "/chatrooms")
 }

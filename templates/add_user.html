@@ -1,52 +1,59 @@
 <html>
   <head>
     <title>search user</title>
+    <link rel="stylesheet" href="../assets/add_user.css">
     <link rel="stylesheet" href="../assets/normalize.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   </head>
   <body>
     <div class="contents-wrapper">
       <div class="form-wrapper">
-      <form class="search-form" id="user-search-form" action="/users/search" method="POST" enctype="multipart/form-data" >
-        <input name="keyword" type="text" class="user-search-area" id="user-search-area">
-        <input type="submit" class="user-search-button" id="user-search-button">
-      </form>
-      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
-      </script>
+      <div class="user-form-header">
+        <h2>ユーザーを検索</h2>
       </div>
+      <form class="search-form" id="user-search-form" action="/users/search" method="POST" enctype="multipart/form-data">
+        <input name="keyword" type="text" class="user-search-area form-default" id="user-search-area">
+        <input type="submit" class="user-search-button button-right" id="user-search-button">
+      </form>
       <div class="user-search-result">
       </div>
+      </div>
     </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js">
+    </script>
     <script>
       $(function(){
-        var search_result = $(".user-search-result")
-
+        var search_result = $(".user-search-result");
         function showUser(user) {
-          console.log(user)
-          var html = `<div class="test">${user.Name}</div>`
-          search_result.append(html);
+        var html = `<div class="add-user-name">${user.User.Name}</div>
+                    <form class="add-user-form" action="/users/add" method="POST">
+                      <input type="hidden" name="user_id" value="${user.User.ID}">
+                      <input type="submit" value="Add User" class="add-button">
+                    </form>`
+        return html
         }
 
         $("#user-search-form").submit(function(e){
+          e.preventDefault();
           var formData = new FormData( this );
-          var text = $(".user-search-area").val()
+          var textarea = $(".user-search-area");
           $.ajax({
             type: 'POST',
             url: '/users/search',
             data: formData,
             dataType: 'json',
-            cache : false,
-            processData: false
+            processData: false,
+            contentType: false
           })
           .done(function(data){
-            console.log(data)
+            console.log(data);
             $(".user-search-result").empty();
-            if(data.length !== 0) {
-              showUser(data);
-            }
+            textarea.val("");
+            html = showUser(data);
+            $(search_result).append(html);
           })
           .fail(function() {
-            error('ユーザー検索に失敗しました')
+            error('ユーザー検索に失敗しました');
           });
         });
       });

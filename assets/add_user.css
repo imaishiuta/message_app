@@ -1,0 +1,80 @@
+body{
+  width: 100%;
+  height: 100%;
+}
+
+.form-default{
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  display: block;
+  width: 500px;
+  height : 80px;
+  margin: 25px 10px 25px 40px;
+  padding-left: 10px;
+  display: inline-block;
+}
+
+.form-wrapper {
+  margin-top: 30px;
+}
+
+.form-wrapper {
+  margin: 40px auto;
+  border-radius: 10px;
+  width: 700px;
+  height: 400px;
+  border: 1px solid #eee;
+  background-color: rgba( 245, 245, 245, 0.8);
+}
+
+.user-search-button {
+  border-radius: 10px;
+}
+
+.button-right {
+  background-color: rgb(240, 240, 240);
+  float: right;
+  margin-top: 25px;
+  margin-right: 40px;
+  width: 100px;
+  height : 80px;
+}
+
+.user-search-result {
+  width: 620px;
+  height: 100px;
+  margin: 0 auto;
+  border-radius: 10px;
+}
+
+.add-user-form {
+  width: 80px;
+  height : 80px;
+  display: inline-block;
+  margin-left: 40px;
+}
+
+.add-user-name {
+  border: 1px solid #ccc;
+  background-color: #ffffff;
+  color: black;
+  font-size: 20px;
+  padding: 40px 16px 40px 20px;
+  display: inline-block;
+  height: 20px;
+  width: 440px;
+  text-align: center;
+}
+
+.add-button{
+  border-radius: 10px;
+  background-color: rgb(240, 240, 240);
+  padding: 0px;
+  width: 100px;
+  height : 80px;
+}
+
+.user-form-header {
+  margin: 0 auto;
+  text-align: center;
+}
