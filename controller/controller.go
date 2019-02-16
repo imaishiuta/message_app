@@ -91,8 +91,10 @@ func PostSigninRouter(c *gin.Context) {
 func PostMessage(c *gin.Context) {
   text := c.PostForm("text")
   data.Create_Message(c, text)
+  user_name := c.PostForm("user_name")
   c.JSON(200, gin.H{
     "Text": text,
+    "User_name": user_name,
     })
 }
 
