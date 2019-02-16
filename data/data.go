@@ -266,13 +266,16 @@ func Create_User_Chat(c *gin.Context, user_id string) {
     }
 
   var users []User
-  current_user := Current_User(c)
+  var user User
+  uint_user_id := uint(int_user_id)
+
+  db.Where("id = ?", uint_user_id).Find(&user)
   group := Group{
-    Name: "Personal",
+    Name: user.Name,
   }
 
   db.Create(&group)
-  uint_user_id := uint(int_user_id)
+  current_user := Current_User(c)
   my_user_id := current_user.ID
   db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
   db.Model(&group).Association("Users").Append(&users, &group)
