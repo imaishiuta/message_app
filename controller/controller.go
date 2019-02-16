@@ -40,7 +40,7 @@ func ChatListRouter(c *gin.Context) {
 func GroupChatRouter(c *gin.Context) {
   UserSigninRedirect(c)
   user := data.Get_All_User()
-  users, messages := data.Get_Group_Data(c)
+  users, messages, group_id := data.Get_Group_Data(c)
   current_user := data.Get_Current_User(c)
   group := data.Find_Group(c)
   c.HTML(200, "group_chat.html", gin.H{
@@ -49,6 +49,7 @@ func GroupChatRouter(c *gin.Context) {
     "Users": users,
     "Messages": messages,
     "current_user": current_user,
+    "group_id": group_id,
     })
 }
 
