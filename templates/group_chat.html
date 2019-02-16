@@ -85,8 +85,7 @@
         <div class="chat-body">
         {{ range .Messages}}
           <div class="chat-list clearfix">
-            <figure class="user-image-photo clearfix">
-            </figure>
+            <P>{{ .User.Name }}</p>
             <div class="message-content">{{ .Text }}</div>
           </div>
         {{ end }}
@@ -98,6 +97,8 @@
         <form action="/message" method="post" class="message-form" enctype="multipart/form-data" id="postbox">
           <div class="form-wrapper">
             <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
+            <input name="group_id" type="hidden" value="{{.group_id}}">
+            <input name="user_name" type="hidden" value="{{.current_user.Name}}">
           </div>
         </form>
       </div>
@@ -108,8 +109,7 @@
       $(function() {
         function buildHTML(data) {
           var html = `<div class="chat-list clearfix">
-                        <figure class="user-image-photo clearfix">
-                          </figure>
+                      <p>${data.User_name}</p>
                       <div class="message-content">${data.Text}</div>
                       </div>`
         return html;
@@ -127,7 +127,6 @@
             contentType: false
           })
           .done(function(data){
-            console.log(data)
             var posts = $(".chat-body");
             var html = buildHTML(data);
             posts.append(html);
