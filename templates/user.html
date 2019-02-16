@@ -56,22 +56,12 @@
               </a>
             </li>
             <li class="left-users-category">
-              <p class="left-users-category-bar">グループ({{ len .Group }})</p>
+              <p class="left-users-category-bar">チャットルーム({{ len .Group }})</p>
             </li>
             {{ range .Group }}
             <li class="left-users-list">
               <a class="left-users-link" href="/group/chatroom/{{.ID}}">
                 <p class="left-users-name">{{ .Name }}</p>
-              </a>
-            </li>
-            {{ end }}
-            <li class="left-users-category">
-              <p class="left-users-category-bar">友達({{ len .User }})</p>
-            </li>
-            {{ range .User }}
-            <li class="left-users-list">
-              <a class="left-users-link" href="/user/chatroom/{{.ID}}">
-                <p class="left-users-name">{{.Name}}</p>
               </a>
             </li>
             {{ end }}
