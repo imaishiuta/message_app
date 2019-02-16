@@ -211,3 +211,7 @@ a:visit{
   position: absolute;
   margin: 10px auto;
 }
+
+.chat-user-name-list{
+  display: inline-block;
+}
