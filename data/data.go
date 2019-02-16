@@ -80,8 +80,7 @@ func Create_Message(c *gin.Context, text string) {
     fmt.Println(err)
   }
   defer db.Close()
-  group_id := c.Param("id")
-  fmt.Println(group_id)
+  group_id := c.PostForm("group_id")
   int_group_id, err := strconv.ParseUint(group_id, 10, 0)
     if err != nil {
       fmt.Println(err)
@@ -115,7 +114,6 @@ func Get_Group_Data(c *gin.Context) ([]User, []Message, uint) {
   db.Find(&group, int_group_id)
   db.Model(&group).Association("Users").Find(&users)
   db.Preload("User").Order("created_at desc").Where("group_id = ?", &group.ID).Find(&messages)
-  fmt.Println(messages)
   return users, messages, group_uint
 }
 
@@ -277,7 +275,5 @@ func Create_User_Chat(c *gin.Context, user_id string) {
   uint_user_id := uint(int_user_id)
   my_user_id := current_user.ID
   db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
-  fmt.Println(users)
-  fmt.Println(group)
   db.Model(&group).Association("Users").Append(&users, &group)
 }
