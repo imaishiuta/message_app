@@ -63,8 +63,9 @@
       </div>
       <div class="chat-main clearfix">
         <div class="chat-header">
-          <p>{{ .Group.Name }}</p>
+          <p class="chat-group-name">{{ .Group.Name }}</p>
           <a class="chat-user-name">
+            <p class="chat-user-name-list">Chat Member : </p>
             {{ range .Group.Users }}
             <p class="chat-user-name-list">{{ .Name }}</p>
             {{ end }}
@@ -77,7 +78,7 @@
             <div class="message-content">{{ .Text }}</div>
           </div>
         {{ end }}
-      </div>
+        </div>
     </div>
       <div class="chat-footer">
         <div class="space"></div>
@@ -86,7 +87,7 @@
           <div class="form-wrapper">
             <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
             <input name="group_id" type="hidden" value="{{.group_id}}">
-            <input name="user_name" type="hidden" value="{{.current_user.Name}}">
+            <input name="user_name" type="hidden" value="{{.Current_user.Name}}">
           </div>
         </form>
       </div>
