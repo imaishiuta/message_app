@@ -114,8 +114,12 @@ a:visit{
 }
 
 .chat-list {
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   margin-left: 20px;
+}
+
+.chat-list p{
+  margin-bottom: 10px;
 }
 
 .chat-body {
@@ -214,4 +218,13 @@ a:visit{
 
 .chat-user-name-list{
   display: inline-block;
+}
+
+.chat-group-name{
+  margin-left: 10px;
+}
+
+.chat-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #eee;
 }
