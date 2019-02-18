@@ -18,6 +18,7 @@ func main() {
   server.Static("/assets", "./assets")
 
   server.GET("/", controller.ChatListRouter)
+  server.GET("/users", controller.ChatListRouter)
   server.POST("/user/signup", controller.PostSignupRouter)
   server.POST("/user/signin", controller.PostSigninRouter)
   server.GET("/chatrooms", controller.ChatListRouter)

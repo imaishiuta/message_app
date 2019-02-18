@@ -9,34 +9,35 @@
   </head>
   <body>
     <main>
-      <div class="left-users-content clearfix">
-        <nav class="left-users-bar">
-          <form>
-            <input type="text" name="name" placeholder="名前で検索" class="user-search-box">
-          </form>
-          <ul class="left-users-lists">
-            <li class="left-users-category">
-              <p class="left-users-category-bar">友達</p>
-            </li>
-            {{ range .user}}
-            <li class="left-users-list">
-              <a class="add-users-link">
-                <p class="add-users-name" data-user-id="{{.ID}}">{{ .Name }}</p>
-              </a>
-            </li>
-            {{ end }}
-          </ul>
-        </nav>
-      </div>
-      <div class="group-content clearfix">
-          <form action="/group/create" method="post" class="group-form">
-            <input type="text" name="name" placeholder="グループ名を入力" class="group-name-box">
-            <div class="selected-user-area">
-              <ul class="selected-user-lists">
-              </ul>
-            </div>
-            <input type="submit">
-          </form>
+      <div class="content-wrapper">
+        <p class="content-header">グループを作成</p>
+        <div class="select-users-content clearfix">
+          <nav class="left-users-bar">
+            <form>
+              <input type="text" name="name" placeholder="名前で検索" class="select-user-search-box">
+            </form>
+            <ul class="select-left-users-lists">
+              {{ range .user}}
+              <li class="left-users-list">
+                <a class="add-users-link">
+                  <p class="add-users-name" data-user-id="{{.ID}}">{{ .Name }}</p>
+                  <p class="add-button">追加</p>
+                </a>
+              </li>
+              {{ end }}
+            </ul>
+          </nav>
+        </div>
+        <div class="group-content clearfix">
+            <form action="/group/create" method="post" class="group-form">
+              <input type="text" name="name" placeholder="グループ名を入力" class="group-name-box">
+              <div class="selected-user-area">
+                <ul class="selected-user-lists">
+                </ul>
+              </div>
+              <input type="submit" class="btn-default">
+            </form>
+        </div>
       </div>
     </main>
     <script>

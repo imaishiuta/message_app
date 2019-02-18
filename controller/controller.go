@@ -49,7 +49,7 @@ func GroupChatRouter(c *gin.Context) {
     "Groups": groups,
     "Users": users,
     "Messages": messages,
-    "current_user": current_user,
+    "Current_user": current_user,
     "group_id": group_id,
     })
 }
@@ -101,7 +101,7 @@ func PostMessage(c *gin.Context) {
 
 func GourpRouter(c *gin.Context) {
   UserSigninRedirect(c)
-  user := data.Get_All_User()
+  user := data.Friend_User(c)
   c.HTML(200, "group.html", gin.H {
     "user": user,
     })

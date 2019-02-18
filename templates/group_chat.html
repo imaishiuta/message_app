@@ -12,12 +12,7 @@
           <ul class="left-side-lists">
             <li class="left-side-list">
               <a class="left-side-link" href="/users">
-                <i class="fas fa-user"></i>
-              </a>
-            </li>
-            <li class="left-side-list">
-              <a class="left-side-link">
-                <i class="fas fa-comment-alt fa-top"></i>
+                <i class="fas fa-user fa-top"></i>
               </a>
             </li>
             <li class="left-side-list">
@@ -27,7 +22,7 @@
             </li>
             <li class="left-side-list">
               <a class="left-side-link" href="/group/edit">
-                <i class="fas fa-users"></i>
+                <i class="fas fa-users fa-top"></i>
               </a>
             </li>
           </ul>
@@ -49,8 +44,8 @@
               <p class="left-users-category-bar">プロフィール</p>
             </li>
             <li class="left-users-list">
-              <a class="left-users-link" href="/chatroom">
-                <p class="left-users-name">username</p>
+              <a class="left-users-link">
+                <p class="left-users-name">{{.Current_user.Name}}</p>
               </a>
             </li>
             <li class="left-users-category">
@@ -68,8 +63,9 @@
       </div>
       <div class="chat-main clearfix">
         <div class="chat-header">
-          <p>{{ .Group.Name }}</p>
+          <p class="chat-group-name">{{ .Group.Name }}</p>
           <a class="chat-user-name">
+            <p class="chat-user-name-list">Chat Member : </p>
             {{ range .Group.Users }}
             <p class="chat-user-name-list">{{ .Name }}</p>
             {{ end }}
@@ -82,7 +78,7 @@
             <div class="message-content">{{ .Text }}</div>
           </div>
         {{ end }}
-      </div>
+        </div>
     </div>
       <div class="chat-footer">
         <div class="space"></div>
@@ -91,7 +87,7 @@
           <div class="form-wrapper">
             <input name="text" type="text" placeholder="type text" value="" class="form-textarea">
             <input name="group_id" type="hidden" value="{{.group_id}}">
-            <input name="user_name" type="hidden" value="{{.current_user.Name}}">
+            <input name="user_name" type="hidden" value="{{.Current_user.Name}}">
           </div>
         </form>
       </div>

@@ -1,32 +1,49 @@
 <html>
   <head>
     <title>user</title>
-    <link rel="stylesheet" href="../assets/user.css">
-    <link rel="stylesheet" href="../assets/normalize.css">
+    <link rel="stylesheet" href="../../assets/user.css">
+    <link rel="stylesheet" href="../../assets/normalize.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   </head>
   <body>
     <div class="contents-wrapper">
-      <div class="contents-left-side">
-        <figure class="user-image-photo clearfix">
-        </figure>
-      </div>
       <div class="contents-right-side">
+        <div class="content-header">
+          ユーザー情報
+        </div>
         <form class="user-edit-form" action="/user/update/{{.Current_user.ID}}" method="post">
-          <input name="name" class="user-edit-text" type="text" value="{{ .Current_user.Name }}">
+          <div class="form-content">
+            <label for="user-name">User Name</label>
+            <input id="user-name" name="name" class="user-edit-text" type="text" value="{{ .Current_user.Name }}">
+          </div>
           {{ if .Current_user.StatusMessage }}
-            <input name="status_message" class="user-edit-text" type="text" value="{{ .Current_user.StatusMessage }}" placeholder="Status Message is not set">
+            <div class="form-content">
+              <label for="status">Status Message</label>
+              <input id="status" name="status_message" class="user-edit-text" type="text" value="{{ .Current_user.StatusMessage }}" placeholder="Status Message is not set">
+            </div>
           {{ else }}
-            <input name="status_message" class="user-edit-text" type="text" placeholder="Status Message is not set">
+            <div class="form-content">
+              <label for="status">Status Message</label>
+              <input id="status" name="status_message" class="user-edit-text" type="text" placeholder="Status Message is not set">
+            </div>
           {{ end }}
           {{ if .Current_user.FriendCode }}
-            <p class="user-edit-text">{{ .Current_user.FriendId }}</p>
-            <input type="hidden" name="friend_id" value="{{.Current_user.FriendCode}}">
+            <div class="form-content">
+              <label for="friendcode">Friend Code</label>
+              <p class="user-edit-text">{{ .Current_user.FriendCode }}</p>
+              <input id="friendcode" type="hidden" name="friend_id" value="{{.Current_user.FriendCode}}">
+            </div>
           {{ else }}
-            <input name="friend_id" class="user-edit-text" type="text" placeholder="User is not set">
+            <div class="form-content">
+              <label for="friendcode">Friend Code</label>
+              <input id="friendcode" name="friend_id" class="user-edit-text" type="text" placeholder="Type a Friend Code">
+            </div>
           {{ end }}
-          <p class="user-edit-text">{{ .Current_user.Email }}</p>
-          <input type="hidden" name="email" value="{{.Current_user.Email}}">
+          <div class="form-content">
+            <label for="email">Email</label>
+            <p id="email" class="user-edit-text">{{ .Current_user.Email }}</p>
+            <input type="hidden" name="email" value="{{.Current_user.Email}}">
+          </div>
           <input type="submit" class="edit-button" value="Edit">
         </form>
       </div>
