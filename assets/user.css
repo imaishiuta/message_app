@@ -127,3 +127,33 @@ a:visit{
   position: absolute;
   margin: 10px auto;
 }
+
+.contents-wrapper {
+  margin: 40px auto;
+  border-radius: 10px;
+  width: 700px;
+  height: 400px;
+  border: 1px solid #eee;
+  background-color: rgba( 245, 245, 245, 0.8);
+}
+
+.form-content{
+  margin: 0 auto;
+  width: 500px;
+  height: 80px;
+}
+
+label {
+  line-height: 70px;
+  display: inline-block;
+  width: 300px;
+  height: 70px;
+}
+
+.user-edit-text{
+  display: inline-block;
+}
+
+.content-header{
+
+}
