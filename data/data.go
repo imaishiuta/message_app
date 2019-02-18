@@ -281,3 +281,19 @@ func Create_User_Chat(c *gin.Context, user_id string) {
   db.Where("id in (?)", []uint{my_user_id, uint_user_id}).Find(&users)
   db.Model(&group).Association("Users").Append(&users, &group)
 }
+
+func Friend_User(c *gin.Context) []User{
+  var users []User
+  var user User
+  current_user := Current_User(c)
+  my_user_id := current_user.ID
+
+  db, err := gorm.Open("mysql", "root@/messageapp?charset=utf8&parseTime=True&loc=Local")
+  if err != nil {
+    fmt.Println(err)
+  }
+  defer db.Close()
+  db.Where("id = ?", my_user_id).Find(&user)
+  db.Model(&user).Association("Friends").Find(&users)
+  return users
+}
