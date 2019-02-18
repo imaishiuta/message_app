@@ -49,7 +49,7 @@ func GroupChatRouter(c *gin.Context) {
     "Groups": groups,
     "Users": users,
     "Messages": messages,
-    "current_user": current_user,
+    "Current_user": current_user,
     "group_id": group_id,
     })
 }
