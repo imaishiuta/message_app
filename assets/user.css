@@ -138,13 +138,14 @@ a:visit{
 }
 
 .form-content{
+  font-weight: bold;
   margin: 0 auto;
   width: 500px;
-  height: 80px;
+  height: 70px;
 }
 
 label {
-  line-height: 70px;
+  line-height: 100px;
   display: inline-block;
   width: 300px;
   height: 70px;
@@ -155,5 +156,15 @@ label {
 }
 
 .content-header{
+  font-weight: bold;
+  margin-left: 278px;
+  margin-top: 20px;
+}
 
+.edit-button {
+  margin-top: 10px;
+  font-weight: bold;
+  float: right;
+  font-size: 15px;
+  margin-right: 100px;
 }
